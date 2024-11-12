@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import useFetchPopulation from "../hooks/useFetchPopulation.ts"; // カスタムフックをインポート
+import useFetchPopulation from "../hooks/useFetchPopulation.ts";
 
-const PopulationGraph: React.FC<{ selectedPrefecture: number | null }> = ({
-  selectedPrefecture,
+const PopulationGraph: React.FC<{ selectedPrefectures: number[] }> = ({
+  selectedPrefectures,
 }) => {
-  const { populationData, selectedLabel, setSelectedLabel } =
-    useFetchPopulation(selectedPrefecture);
+  const [selectedLabel, setSelectedLabel] = useState<string>("総人口");
+  const { populationData } = useFetchPopulation(
+    selectedPrefectures,
+    selectedLabel
+  );
 
   const getChartOptions = () => {
-    if (!populationData) return {};
+    if (!populationData || populationData.length === 0) return {};
 
-    const labels = populationData[0].data.map((item: any) => item.year);
-    const dataValues = populationData.find(
-      (item: any) => item.label === selectedLabel
-    ).data;
+    const labels = populationData[0].data.map((item) => item.year);
 
     return {
       title: {
@@ -29,12 +29,10 @@ const PopulationGraph: React.FC<{ selectedPrefecture: number | null }> = ({
           text: "人口数",
         },
       },
-      series: [
-        {
-          name: selectedLabel,
-          data: dataValues.map((item: any) => item.value),
-        },
-      ],
+      series: populationData.map((data) => ({
+        name: `${data.prefCode}`,
+        data: data.data.map((item) => item.value),
+      })),
     };
   };
 

@@ -4,10 +4,10 @@ import PrefectureList from "./prefectureGraph/components/prefectureList.tsx";
 import PopulationGraph from "./prefectureGraph/components/populationGraph.tsx";
 
 function App() {
-  const [selectedPrefecture, setSelectedPrefecture] = useState(null);
+  const [selectedPrefectures, setSelectedPrefectures] = useState<number[]>([]);
 
-  const handlePrefectureSelect = (prefCode) => {
-    setSelectedPrefecture(prefCode);
+  const handlePrefectureSelect = (prefCodes: number[]) => {
+    setSelectedPrefectures(prefCodes);
   };
 
   return (
@@ -15,7 +15,7 @@ function App() {
       <header className="App-header">
         <h1>都道府県一覧</h1>
         <PrefectureList onSelectPrefecture={handlePrefectureSelect} />
-        <PopulationGraph selectedPrefecture={selectedPrefecture} />
+        <PopulationGraph selectedPrefectures={selectedPrefectures} />
       </header>
     </div>
   );
