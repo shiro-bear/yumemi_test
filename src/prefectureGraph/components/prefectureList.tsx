@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useFetchPrefectures from "../hooks/useFetchPrefectures.ts";
+import "../css/prefectureList.css"; // CSSファイルをインポート
 interface PrefectureListProps {
   onSelectPrefecture: (prefCode: number[]) => void;
 }
@@ -22,16 +23,19 @@ const PrefectureList: React.FC<PrefectureListProps> = ({
   return (
     <div>
       {error && <p>Error: {error}</p>}
-      <ul>
+      <ul className="prefecture-list">
         {prefectures.map((prefecture) => (
-          <label key={prefecture.prefCode}>
+          <label key={prefecture.prefCode} className="prefecture-item">
             <input
               type="checkbox"
+              className="prefecture-checkbox"
               onChange={(e) =>
                 handleCheckboxChange(prefecture.prefCode, e.target.checked)
               }
             />
-            {prefecture.prefName}
+            <span className="prefecture-label">
+              {`${prefecture.prefCode}. ${prefecture.prefName}`}
+            </span>
           </label>
         ))}
       </ul>
