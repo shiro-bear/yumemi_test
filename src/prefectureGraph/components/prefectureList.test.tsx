@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import PrefectureList from "../components/prefectureList.tsx";
 import useFetchPrefectures from "../hooks/useFetchPrefectures";
-import axios from "axios";
 
 // useFetchPrefecturesをモック
 jest.mock("../hooks/useFetchPrefectures");

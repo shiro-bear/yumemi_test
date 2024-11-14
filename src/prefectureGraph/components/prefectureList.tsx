@@ -10,14 +10,11 @@ const PrefectureList: React.FC<PrefectureListProps> = ({
   const { prefectures, error } = useFetchPrefectures();
   const [selectedPrefectures, setSelectedPrefectures] = useState<number[]>([]);
   const handleCheckboxChange = (prefCode: number, isChecked: boolean) => {
-    console.log(`Prefecture Code: ${prefCode}, Checked: ${isChecked}`);
-    setSelectedPrefectures((prevSelected) => {
-      const updatedList = isChecked
-        ? [...prevSelected, prefCode] // チェックが入った場合追加
-        : prevSelected.filter((code) => code !== prefCode); // チェックが外れた場合削除
-      onSelectPrefecture(updatedList);
-      return updatedList;
-    });
+    const updatedList = isChecked
+      ? [...selectedPrefectures, prefCode] // チェックが入った場合追加
+      : selectedPrefectures.filter((code) => code !== prefCode); // チェックが外れた場合削除
+    onSelectPrefecture(updatedList);
+    setSelectedPrefectures(updatedList);
   };
 
   return (
